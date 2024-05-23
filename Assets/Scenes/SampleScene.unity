@@ -1550,7 +1550,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff848be474e249546b7e045bb88425eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _alarmSystem: {fileID: 2099305005}
 --- !u!1 &1532840732
 GameObject:
   m_ObjectHideFlags: 0
@@ -2583,6 +2582,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a164de4b6db2ea46885a9e1e7a86e91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _alarmTrigger: {fileID: 1481540331}
   _increasingVolume: 0.5
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

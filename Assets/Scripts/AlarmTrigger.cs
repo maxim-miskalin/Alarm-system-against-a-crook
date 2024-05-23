@@ -4,8 +4,6 @@ using UnityEngine;
 [RequireComponent(typeof(Collider))]
 public class AlarmTrigger : MonoBehaviour
 {
-    [SerializeField] private AlarmSystem _alarmSystem;
-
     private bool _isActive = false;
 
     public bool IsActive => _isActive;
@@ -18,13 +16,12 @@ public class AlarmTrigger : MonoBehaviour
         {
             _isActive = true;
             Activate?.Invoke();
-            _alarmSystem.TurnUp();
         }
     }
 
     private void OnTriggerExit()
     {
-        _alarmSystem.TurnDown();
         _isActive = false;
+        Activate?.Invoke();
     }
 }

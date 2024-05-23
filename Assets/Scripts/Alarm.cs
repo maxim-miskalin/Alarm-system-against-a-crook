@@ -2,8 +2,9 @@ using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(AudioSource))]
-public class AlarmSystem : MonoBehaviour
+public class Alarm : MonoBehaviour
 {
+    [SerializeField] private AlarmTrigger _alarmTrigger;
     [SerializeField] private float _increasingVolume = 0.5f;
 
     private AudioSource _siren;
@@ -11,20 +12,29 @@ public class AlarmSystem : MonoBehaviour
     private float _minValue = 0f;
     private float _maxValue = 1f;
 
+    private void OnEnable()
+    {
+        _alarmTrigger.Activate += RespondToAlarm;
+    }
+
+    private void OnDisable()
+    {
+        _alarmTrigger.Activate -= RespondToAlarm;
+    }
+
     private void Start()
     {
         _siren = GetComponent<AudioSource>();
         _siren.volume = 0;
     }
 
-    public void TurnUp()
+    private void RespondToAlarm()
     {
-        StartTurnVolume(_maxValue);
-    }
+        if (_alarmTrigger.IsActive)
+            StartTurnVolume(_maxValue);
 
-    public void TurnDown()
-    {
-        StartTurnVolume(_minValue);
+        if (!_alarmTrigger.IsActive)
+            StartTurnVolume(_minValue);
     }
 
     private void StartTurnVolume(float valueVolume)
