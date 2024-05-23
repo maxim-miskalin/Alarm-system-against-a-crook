@@ -4,7 +4,7 @@ using UnityEngine;
 public class Criminal : MonoBehaviour
 {
     [SerializeField] private Transform _wayPoint;
-    [SerializeField] private float _speed = 4f;
+    [SerializeField, Min(0f)] private float _speed = 4f;
 
     private List<Transform> _way = new();
     private int _index = 0;

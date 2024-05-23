@@ -6,64 +6,54 @@ using UnityEngine;
 public class Alarm : MonoBehaviour
 {
     [SerializeField] private AudioSource _siren;
-    [SerializeField] private float _increasingVolume = 0.05f;
-    [SerializeField] private float _smoothnessOfSoundChange = 0.01f;
+    [SerializeField] private float _increasingVolume = 5f;
 
-    private WaitForSeconds _wait;
-    private Collider _collider;
     private bool _isActive = false;
+    private Coroutine _coroutine;
+
+    private float _minValue = 0f;
+    private float _maxValue = 1f;
 
     public bool IsActive => _isActive;
 
-    public event Action Activation;
+    public event Action Activate;
 
     private void Start()
     {
-        _collider = GetComponent<Collider>();
-        _wait = new(_smoothnessOfSoundChange);
         _siren.volume = 0;
     }
 
     private void OnTriggerEnter(Collider collider)
     {
-        if (collider.GetComponent<Criminal>() != null)
+        if (collider.TryGetComponent<Criminal>(out Criminal criminal))
         {
             _isActive = true;
-            Activation?.Invoke();
-            StartCoroutine(TurnUpVolume(collider));
+            Activate?.Invoke();
+            _coroutine = StartCoroutine(TurnVolume(_maxValue));
         }
     }
 
-    private void OnTriggerExit(Collider collider)
+    private void OnTriggerExit()
     {
-        StopAllCoroutines();
-        StartCoroutine(TurnDownVolume());
+        if (_coroutine != null)
+            StopCoroutine(_coroutine);
+
+        StartCoroutine(TurnVolume(_minValue));
         _isActive = false;
     }
 
-    private IEnumerator TurnUpVolume(Collider collider)
+    private IEnumerator TurnVolume(float targetValue)
     {
-        _siren.Play();
+        if (targetValue == _maxValue)
+            _siren.Play();
 
-        while (_siren.volume < 1)
+        while (_siren.volume != targetValue)
         {
-            _siren.volume += _increasingVolume;
-            yield return _wait;
+            _siren.volume = Mathf.MoveTowards(_siren.volume, targetValue, _increasingVolume * Time.deltaTime);
+            yield return null;
         }
 
-        yield return null;
-    }
-
-    private IEnumerator TurnDownVolume()
-    {
-        while (_siren.volume > 0)
-        {
-            _siren.volume -= _increasingVolume;
-            yield return _wait;
-        }
-
-        _siren.Pause();
-
-        yield return null;
+        if (targetValue == _minValue)
+            _siren.Stop();
     }
 }

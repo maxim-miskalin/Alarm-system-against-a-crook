@@ -7,7 +7,7 @@ public class LightBulb : MonoBehaviour
     [SerializeField] private Alarm _alarm;
     [SerializeField] private Color _firstColor = Color.red;
     [SerializeField] private Color _secondColor = Color.blue;
-    [SerializeField, Range(0f, 2f)] private float _switchingTime = 1f;
+    [SerializeField, Range(0f, 2f)] private float _switchingTime = 0.5f;
 
     private Light _light;
     private Color _defualtColor;
@@ -22,12 +22,12 @@ public class LightBulb : MonoBehaviour
 
     private void OnEnable()
     {
-        _alarm.Activation += TurnOnFlashing;
+        _alarm.Activate += TurnOnFlashing;
     }
 
     private void OnDisable()
     {
-        _alarm.Activation -= TurnOnFlashing;
+        _alarm.Activate -= TurnOnFlashing;
     }
 
     private void TurnOnFlashing()
