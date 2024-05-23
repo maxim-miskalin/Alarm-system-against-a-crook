@@ -1111,7 +1111,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a25f04b9db247d248b5504922a5ec57e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _alarm: {fileID: 1481540328}
+  _alarmTrigger: {fileID: 1481540331}
   _firstColor: {r: 1, g: 0, b: 0, a: 1}
   _secondColor: {r: 0, g: 0, b: 1, a: 1}
   _switchingTime: 0.5
@@ -1492,7 +1492,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1481540330}
   - component: {fileID: 1481540329}
-  - component: {fileID: 1481540328}
+  - component: {fileID: 1481540331}
   m_Layer: 0
   m_Name: SecuritySystem
   m_TagString: Untagged
@@ -1500,20 +1500,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1481540328
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1481540327}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 466dc5dd4d13ac04b9876d10d970958e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _siren: {fileID: 2099305004}
-  _increasingVolume: 0.5
 --- !u!65 &1481540329
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1552,6 +1538,19 @@ Transform:
   - {fileID: 2099305003}
   m_Father: {fileID: 1561719693}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1481540331
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1481540327}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff848be474e249546b7e045bb88425eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _alarmSystem: {fileID: 2099305005}
 --- !u!1 &1532840732
 GameObject:
   m_ObjectHideFlags: 0
@@ -2381,6 +2380,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2099305003}
   - component: {fileID: 2099305004}
+  - component: {fileID: 2099305005}
   m_Layer: 0
   m_Name: Siren
   m_TagString: Untagged
@@ -2571,6 +2571,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &2099305005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2099305002}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a164de4b6db2ea46885a9e1e7a86e91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _increasingVolume: 0.5
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

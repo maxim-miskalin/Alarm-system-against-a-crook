@@ -1,45 +1,38 @@
-using System;
 using System.Collections;
 using UnityEngine;
 
-[RequireComponent(typeof(Collider))]
-public class Alarm : MonoBehaviour
+[RequireComponent(typeof(AudioSource))]
+public class AlarmSystem : MonoBehaviour
 {
-    [SerializeField] private AudioSource _siren;
-    [SerializeField] private float _increasingVolume = 5f;
+    [SerializeField] private float _increasingVolume = 0.5f;
 
-    private bool _isActive = false;
+    private AudioSource _siren;
     private Coroutine _coroutine;
-
     private float _minValue = 0f;
     private float _maxValue = 1f;
 
-    public bool IsActive => _isActive;
-
-    public event Action Activate;
-
     private void Start()
     {
+        _siren = GetComponent<AudioSource>();
         _siren.volume = 0;
     }
 
-    private void OnTriggerEnter(Collider collider)
+    public void TurnUp()
     {
-        if (collider.TryGetComponent<Criminal>(out Criminal criminal))
-        {
-            _isActive = true;
-            Activate?.Invoke();
-            _coroutine = StartCoroutine(TurnVolume(_maxValue));
-        }
+        StartTurnVolume(_maxValue);
     }
 
-    private void OnTriggerExit()
+    public void TurnDown()
+    {
+        StartTurnVolume(_minValue);
+    }
+
+    private void StartTurnVolume(float valueVolume)
     {
         if (_coroutine != null)
             StopCoroutine(_coroutine);
 
-        StartCoroutine(TurnVolume(_minValue));
-        _isActive = false;
+        _coroutine = StartCoroutine(TurnVolume(valueVolume));
     }
 
     private IEnumerator TurnVolume(float targetValue)

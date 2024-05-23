@@ -4,7 +4,7 @@ using UnityEngine;
 [RequireComponent(typeof(Light))]
 public class LightBulb : MonoBehaviour
 {
-    [SerializeField] private Alarm _alarm;
+    [SerializeField] private AlarmTrigger _alarmTrigger;
     [SerializeField] private Color _firstColor = Color.red;
     [SerializeField] private Color _secondColor = Color.blue;
     [SerializeField, Range(0f, 2f)] private float _switchingTime = 0.5f;
@@ -13,21 +13,21 @@ public class LightBulb : MonoBehaviour
     private Color _defualtColor;
     private WaitForSeconds _wait;
 
+    private void OnEnable()
+    {
+        _alarmTrigger.Activate += TurnOnFlashing;
+    }
+
+    private void OnDisable()
+    {
+        _alarmTrigger.Activate -= TurnOnFlashing;
+    }
+
     private void Start()
     {
         _light = GetComponent<Light>();
         _defualtColor = _light.color;
         _wait = new(_switchingTime);
-    }
-
-    private void OnEnable()
-    {
-        _alarm.Activate += TurnOnFlashing;
-    }
-
-    private void OnDisable()
-    {
-        _alarm.Activate -= TurnOnFlashing;
     }
 
     private void TurnOnFlashing()
@@ -37,7 +37,7 @@ public class LightBulb : MonoBehaviour
 
     private IEnumerator SwitchColors()
     {
-        while(_alarm.IsActive)
+        while (_alarmTrigger.IsActive)
         {
             _light.color = _firstColor;
             yield return _wait;
